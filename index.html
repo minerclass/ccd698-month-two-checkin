@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Micah Miner's July 2026 dissertation progress check-in: proposal defense approval, August 14 preparation, and IRB submission readiness.">
+  <meta name="theme-color" content="#111318">
+  <title>CCD-698 | Month Two Dissertation Check-In</title>
+  <style>
+    :root {
+      --bg: #111318;
+      --surface: #181b22;
+      --surface-2: #20242d;
+      --line: #343945;
+      --ink: #f0eee8;
+      --muted: #a8adb7;
+      --gold: #f0bd45;
+      --teal: #67b9aa;
+      --violet: #aaa1dc;
+      --blue: #70aee7;
+      --rust: #dc895e;
+      --green: #75bd8c;
+      --display: "Arial Black", Arial, sans-serif;
+      --body: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); overflow: hidden; }
+    a { color: inherit; }
+    button { font: inherit; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: 4px;
+      background: var(--line);
+    }
+    .progress span { display: block; width: 10%; height: 100%; background: var(--gold); transition: width .25s ease; }
+
+    .slide {
+      display: none;
+      min-height: 100svh;
+      padding: clamp(42px, 4.5vw, 72px) clamp(26px, 7vw, 112px) clamp(76px, 7vw, 94px);
+      position: relative;
+      overflow: auto;
+    }
+    .slide.is-active { display: flex; flex-direction: column; animation: enter .28s ease-out both; }
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .slide::after {
+      content: attr(data-number);
+      position: absolute;
+      right: clamp(26px, 4vw, 58px);
+      bottom: 32px;
+      color: var(--muted);
+      font: 700 .72rem/1 var(--mono);
+      letter-spacing: .08em;
+    }
+
+    .eyebrow { margin: 0 0 22px; color: var(--gold); font: 700 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3 { font-family: var(--display); letter-spacing: -.055em; }
+    h1 { max-width: 11ch; margin: auto 0 28px; font-size: clamp(3.5rem, 9.7vw, 7.6rem); line-height: .92; }
+    h2 { margin: 0; max-width: 24ch; font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: .98; }
+    h3 { margin: 0 0 10px; font-size: clamp(1.15rem, 2.2vw, 1.85rem); line-height: 1.04; }
+    p { margin: 0; }
+    .lead { max-width: 64ch; margin-top: 24px; color: var(--muted); font-size: clamp(1.1rem, 2vw, 1.48rem); line-height: 1.45; }
+    .big-claim { max-width: 25ch; margin: auto 0; font-family: var(--display); font-size: clamp(2.25rem, 5.5vw, 5rem); line-height: 1.05; letter-spacing: -.05em; }
+    .accent { color: var(--gold); }
+    .teal { color: var(--teal); }
+    .green { color: var(--green); }
+
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      text-decoration: none;
+      font: 700 .68rem/1 var(--mono);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      transition: .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: var(--gold); }
+    .button-primary { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+    .meta { display: flex; justify-content: space-between; gap: 24px; color: var(--muted); font: 700 .66rem/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .title-rule { width: min(460px, 60vw); height: 2px; margin: 36px 0 22px; background: var(--line); }
+    .author { color: var(--ink); font-size: 1.05rem; font-weight: 800; }
+
+    .state-grid, .goal-grid, .success-grid, .packet-grid { display: grid; gap: 14px; margin-top: auto; }
+    .state-grid { grid-template-columns: 1fr 1fr; }
+    .state, .panel { border: 1px solid var(--line); background: var(--surface); padding: clamp(22px, 3vw, 34px); }
+    .state:last-child { background: rgba(240, 189, 69, .09); border-color: rgba(240, 189, 69, .5); }
+    .label { display: block; margin-bottom: 20px; color: var(--muted); font: 700 .66rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .state strong { display: block; max-width: 25ch; font-size: clamp(1.25rem, 2.4vw, 2rem); line-height: 1.2; }
+    .status { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 18px; color: var(--green); font: 800 .64rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .status.active { color: var(--gold); }
+    .status.review { color: var(--blue); }
+
+    .goal-grid { grid-template-columns: repeat(3, 1fr); }
+    .goal-grid.two { grid-template-columns: 1fr 1fr; }
+    .goal-card { min-height: 250px; padding: 28px; border: 1px solid var(--line); background: var(--surface); }
+    .goal-card:nth-child(even) { background: var(--surface-2); }
+    .goal-card p { color: var(--muted); line-height: 1.45; }
+    .goal-card strong { display: block; margin-bottom: 14px; font-size: clamp(1.25rem, 2.6vw, 2.1rem); line-height: 1.15; }
+    .criterion { display: grid; grid-template-columns: 190px 1fr; align-items: center; gap: 24px; margin-top: 18px; padding: 18px 22px; background: var(--gold); color: var(--bg); }
+    .criterion span { font: 800 .65rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .criterion strong { font-size: clamp(1rem, 2vw, 1.35rem); }
+    .resource-links { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 20px; color: var(--muted); font: 700 .65rem/1.4 var(--mono); }
+    .resource-links a { text-decoration: none; border-bottom: 1px solid var(--line); }
+    .resource-links a:hover { color: var(--gold); border-color: var(--gold); }
+
+    .milestone {
+      display: grid;
+      grid-template-columns: 1fr 50px 1fr 50px 1fr;
+      align-items: stretch;
+      margin-top: auto;
+    }
+    .milestone-card {
+      min-height: 270px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .milestone-card.current { border-color: rgba(240, 189, 69, .6); background: rgba(240, 189, 69, .08); }
+    .milestone-card strong { display: block; margin: 58px 0 14px; font-size: clamp(1.25rem, 2.6vw, 2.1rem); line-height: 1.15; }
+    .milestone-card p { color: var(--muted); line-height: 1.5; }
+    .milestone-arrow { display: grid; place-items: center; color: var(--gold); font-size: 1.6rem; }
+
+    .packet-grid { grid-template-columns: .95fr 1.05fr; }
+    .checklist { display: grid; gap: 11px; padding: 0; margin: 18px 0 0; list-style: none; }
+    .checklist li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; color: var(--muted); font-weight: 720; line-height: 1.35; }
+    .checklist li::before { content: "✓"; color: var(--green); }
+    .checklist li.pending::before { content: "→"; color: var(--gold); }
+    .packet-metric { display: flex; align-items: baseline; gap: 12px; margin-top: 20px; }
+    .packet-metric strong { color: var(--gold); font: 800 clamp(3.5rem, 7vw, 6rem)/1 var(--display); letter-spacing: -.07em; }
+    .packet-metric span { max-width: 12ch; color: var(--muted); font-weight: 750; line-height: 1.25; }
+
+    .pathway {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: auto;
+      border: 1px solid var(--line);
+    }
+    .path-step { min-height: 245px; padding: 26px; border-right: 1px solid var(--line); background: var(--surface); }
+    .path-step:last-child { border-right: 0; }
+    .path-step.current { background: rgba(240, 189, 69, .08); }
+    .path-step .step { color: var(--gold); font: 800 .68rem/1 var(--mono); letter-spacing: .08em; }
+    .path-step h3 { margin-top: 64px; }
+    .path-step p { color: var(--muted); font-size: .94rem; line-height: 1.5; }
+
+    .issue-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: auto; }
+    .issue { display: grid; grid-template-columns: 56px 1fr; gap: 18px; min-height: 150px; padding: 24px; border: 1px solid var(--line); background: var(--surface); }
+    .issue > span { color: var(--gold); font: 800 .72rem/1 var(--mono); }
+    .issue h3 { font-size: clamp(1.05rem, 2vw, 1.5rem); letter-spacing: -.035em; }
+    .issue p { color: var(--muted); line-height: 1.45; }
+
+    .timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; margin-top: auto; padding-top: 84px; }
+    .timeline::before { content: ""; position: absolute; top: 40px; left: 2%; right: 2%; height: 2px; background: var(--line); }
+    .phase { position: relative; }
+    .phase::before { content: ""; position: absolute; width: 14px; height: 14px; border-radius: 50%; top: -51px; left: 0; background: var(--gold); box-shadow: 0 0 0 6px var(--bg); }
+    .phase time { display: block; margin-bottom: 28px; color: var(--gold); font: 700 .74rem/1 var(--mono); letter-spacing: .07em; }
+    .phase p { max-width: 30ch; color: var(--muted); font-size: 1rem; line-height: 1.5; }
+
+    .success-grid { grid-template-columns: .85fr 1.15fr; }
+    .questions { display: grid; gap: 26px; margin-top: 26px; }
+    .questions strong { font-size: clamp(1.25rem, 2.5vw, 2rem); line-height: 1.15; }
+    .closing { margin-top: 28px; font-family: var(--display); font-size: clamp(1.2rem, 2.4vw, 2rem); letter-spacing: -.035em; }
+
+    .controls {
+      position: fixed;
+      z-index: 60;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      background: rgba(17, 19, 24, .9);
+      backdrop-filter: blur(12px);
+    }
+    .controls button { width: 42px; height: 38px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+    .controls button:hover { border-color: var(--gold); color: var(--gold); }
+    .slide-status { min-width: 74px; text-align: center; color: var(--muted); font: 700 .68rem/1 var(--mono); }
+    .shortcut { position: fixed; left: 24px; bottom: 28px; color: var(--muted); font: .62rem/1.4 var(--mono); z-index: 30; }
+
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .slide { min-height: 100svh; }
+      .goal-grid, .goal-grid.two, .state-grid, .success-grid, .packet-grid, .issue-list { grid-template-columns: 1fr 1fr; }
+      .milestone { grid-template-columns: 1fr; gap: 12px; }
+      .milestone-arrow { height: 24px; transform: rotate(90deg); }
+      .pathway { grid-template-columns: 1fr 1fr; }
+      .path-step:nth-child(2) { border-right: 0; }
+      .path-step:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .timeline { grid-template-columns: 1fr; padding: 20px 0 0 36px; }
+      .timeline::before { top: 0; left: 7px; bottom: 0; right: auto; width: 2px; height: auto; }
+      .phase::before { top: 0; left: -36px; }
+      .criterion { grid-template-columns: 1fr; }
+      .shortcut { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      .slide { padding-inline: 22px; }
+      .goal-grid, .goal-grid.two, .state-grid, .success-grid, .packet-grid, .issue-list, .pathway { grid-template-columns: 1fr; }
+      .meta { flex-direction: column; }
+      .controls { bottom: 10px; }
+      .issue { grid-template-columns: 36px 1fr; }
+      .path-step { border-right: 0; border-bottom: 1px solid var(--line); }
+      .path-step:last-child { border-bottom: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    @media print {
+      @page { size: 13.333in 7.5in; margin: 0; }
+      body { overflow: visible; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .progress, .controls, .shortcut { display: none !important; }
+      .slide, .slide.is-active { display: flex !important; min-height: 7.5in; height: 7.5in; overflow: hidden; page-break-after: always; animation: none; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+  <main id="deck" aria-live="polite">
+    <section class="slide is-active" id="slide-1" data-number="01 / 10" aria-labelledby="title-1">
+      <div class="meta"><span>CCD-698 • Dissertation Research Seminar</span><span>July 30, 2026</span></div>
+      <h1 id="title-1">Month Two: Approved to <span class="accent">Defend</span></h1>
+      <p class="lead">Month Two dissertation check-in: proposal approval, August 14 defense preparation, and the final IRB application pathway.</p>
+      <div class="title-rule"></div>
+      <p class="author">Micah Miner</p>
+      <div class="actions">
+        <button class="button button-primary" type="button" data-next>Begin presentation</button>
+        <a class="button" href="https://minerclass.github.io/ccd698-first-month-goals/" target="_blank" rel="noopener">Review first-month goals ↗</a>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-number="02 / 10" aria-labelledby="title-2">
+      <p class="eyebrow">The month in one sentence</p>
+      <h2 id="title-2">The proposal moved from committee-ready to defense-approved</h2>
+      <p class="big-claim">The next phase is no longer hypothetical. The proposal defense is scheduled for <span class="accent">August 14.</span></p>
+      <div class="state-grid">
+        <div class="state"><span class="label">July 9 starting point</span><strong>A proposal I needed to make defensible</strong></div>
+        <div class="state"><span class="label">July 30 status</span><strong>Approval to defend with IRB preparation underway</strong></div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-number="03 / 10" aria-labelledby="title-3">
+      <p class="eyebrow">First-month goals revisited</p>
+      <h2 id="title-3">The original goals produced concrete outcomes</h2>
+      <p class="lead">The work is now measured by completed transitions rather than draft activity.</p>
+      <div class="goal-grid">
+        <article class="goal-card"><span class="status">Complete</span><strong>Lock the proposal</strong><p>The chair approved the proposal for defense and forwarded it to the committee members.</p></article>
+        <article class="goal-card"><span class="status active">In progress</span><strong>Prepare to defend</strong><p>The August 14 date creates a focused window for the deck, answer bank, and timed rehearsals.</p></article>
+        <article class="goal-card"><span class="status review">Chair review next</span><strong>Prepare responsible research</strong><p>CITI is complete, and the IRB narrative, consent materials, recruitment materials, and review memo are assembled.</p></article>
+      </div>
+      <div class="criterion"><span>Most important change</span><strong>The work has shifted from proposal revision to two parallel readiness tracks: defense and IRB</strong></div>
+    </section>
+
+    <section class="slide" id="slide-4" data-number="04 / 10" aria-labelledby="title-4">
+      <p class="eyebrow">Proposal milestone</p>
+      <h2 id="title-4">The study has crossed the formal threshold to defense</h2>
+      <p class="lead">The proposal is now moving through the hearing process while the participant-protection materials are prepared.</p>
+      <div class="milestone">
+        <article class="milestone-card"><span class="label">Completed</span><strong>Committee-ready proposal</strong><p>Chapters One through Three stabilized around the study’s theoretical and methodological architecture.</p></article>
+        <div class="milestone-arrow" aria-hidden="true">→</div>
+        <article class="milestone-card"><span class="label">Approved</span><strong>Forwarded for hearing</strong><p>The chair sent the proposal to the committee members and approved movement toward the proposal defense.</p></article>
+        <div class="milestone-arrow" aria-hidden="true">→</div>
+        <article class="milestone-card current"><span class="label">Next milestone</span><strong>August 14 defense</strong><p>The immediate task is to explain the study clearly and respond to questions without expanding its scope.</p></article>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-number="05 / 10" aria-labelledby="title-5">
+      <p class="eyebrow">Research operations</p>
+      <h2 id="title-5">The infrastructure has moved from planning to use</h2>
+      <p class="lead">The research ecosystem now supports both the public explanation of the study and the private compliance workflow.</p>
+      <div class="goal-grid">
+        <article class="goal-card"><span class="label">Public layer</span><strong>Defense and research ecosystem</strong><p>The proposal studio, defense companion, dissertation overview, and methods resources remain available as explanation and rehearsal tools.</p></article>
+        <article class="goal-card"><span class="label">Operations layer</span><strong>Dissertation cockpit</strong><p>The working dashboard organizes milestones, readiness, documents, and the transition from proposal to study operations.</p></article>
+        <article class="goal-card"><span class="label">Compliance layer</span><strong>IRB submission folder</strong><p>The application narrative, consent forms, recruitment materials, samples, review memo, and CITI records are now in one controlled location.</p></article>
+      </div>
+      <div class="resource-links">
+        <a href="https://minerclass.github.io/" target="_blank" rel="noopener">Public research ecosystem ↗</a>
+        <a href="https://drive.google.com/drive/folders/1g8TrHw6uvnXdRZWC7oDgAeLStR5sZdEt?usp=drive_link" target="_blank" rel="noopener">IRB working folder ↗</a>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" data-number="06 / 10" aria-labelledby="title-6">
+      <p class="eyebrow">IRB status</p>
+      <h2 id="title-6">The submission package is substantially assembled</h2>
+      <p class="lead">The remaining work is a targeted consistency and approval pass, not starting from a blank application.</p>
+      <div class="packet-grid">
+        <section class="panel">
+          <span class="label">Available now</span>
+          <ul class="checklist">
+            <li>CITI completion certificate and report</li>
+            <li>Two-page narrative draft</li>
+            <li>Consent forms based on NLU samples</li>
+            <li>Recruitment materials and screening language</li>
+            <li>Cover-sheet values and review memo</li>
+            <li>NLU informed-consent examples</li>
+          </ul>
+        </section>
+        <section class="panel">
+          <span class="label">Required before submission</span>
+          <div class="packet-metric"><strong>4</strong><span>final handoffs</span></div>
+          <ul class="checklist">
+            <li class="pending">Resolve proposal-to-IRB consistency</li>
+            <li class="pending">Append representative study instruments</li>
+            <li class="pending">Complete the application form and signatures</li>
+            <li class="pending">Obtain chair review and approval</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-7" data-number="07 / 10" aria-labelledby="title-7">
+      <p class="eyebrow">Expected review pathway</p>
+      <h2 id="title-7">The study is being prepared for exempt review</h2>
+      <p class="lead">Exempt does not mean no review. It means a narrower review pathway for qualifying minimal-risk research with adult participants.</p>
+      <div class="pathway">
+        <article class="path-step"><span class="step">01</span><h3>Adult participants</h3><p>No minors are recruited, and no K–12 student data or student work are collected.</p></article>
+        <article class="path-step"><span class="step">02</span><h3>Educational methods</h3><p>The participant-facing activities use surveys, interviews, and related educational research procedures.</p></article>
+        <article class="path-step"><span class="step">03</span><h3>Confidentiality</h3><p>Identity, storage, recruitment, reporting, and withdrawal procedures are designed to limit disclosure risk.</p></article>
+        <article class="path-step current"><span class="step">04</span><h3>One-reviewer path</h3><p>The chair’s guidance identifies the project for exempt review, followed by the normal IRB approval letter.</p></article>
+      </div>
+      <div class="resource-links"><a href="https://nl.edu/about/leadership/provost/institutional-research-board/" target="_blank" rel="noopener">NLU Institutional Research Board ↗</a></div>
+    </section>
+
+    <section class="slide" id="slide-8" data-number="08 / 10" aria-labelledby="title-8">
+      <p class="eyebrow">Final IRB work</p>
+      <h2 id="title-8">The critical task is internal alignment</h2>
+      <p class="lead">The proposal, narrative, consent forms, recruitment language, and instruments must describe the same study.</p>
+      <div class="issue-list">
+        <article class="issue"><span>01</span><div><h3>Participant scope</h3><p>Use one consistent set of participant groups, eligibility rules, and maximum enrollment figures.</p></div></article>
+        <article class="issue"><span>02</span><div><h3>Study activities</h3><p>Ensure each interview, survey, card sort, or validation activity appears consistently across documents.</p></div></article>
+        <article class="issue"><span>03</span><div><h3>Data protection</h3><p>Name the actual secure destination, retention period, access controls, and de-identification process.</p></div></article>
+        <article class="issue"><span>04</span><div><h3>Instrument appendices</h3><p>Provide versions that are clear enough for participant-risk review even if minor refinements follow.</p></div></article>
+      </div>
+      <div class="criterion"><span>Submission gate</span><strong>Chair approval of the complete packet before it is sent to the IRB mailbox</strong></div>
+    </section>
+
+    <section class="slide" id="slide-9" data-number="09 / 10" aria-labelledby="title-9">
+      <p class="eyebrow">July 30 to August 14</p>
+      <h2 id="title-9">Two readiness tracks now move together</h2>
+      <p class="lead">Defense preparation and IRB preparation have different products but share one controlling study design.</p>
+      <div class="timeline">
+        <article class="phase"><time>July 30–August 2</time><h3>Align</h3><p>Complete the proposal-to-IRB consistency pass and attach the study instruments.</p></article>
+        <article class="phase"><time>August 3–7</time><h3>Review</h3><p>Send the full IRB packet to the chair, respond to revisions, and stabilize the defense deck.</p></article>
+        <article class="phase"><time>August 8–12</time><h3>Rehearse</h3><p>Complete timed defense runs and refine concise answers to boundary, integration, and feasibility questions.</p></article>
+        <article class="phase"><time>August 13–14</time><h3>Defend</h3><p>Complete the final check, enter the hearing with a controlled argument, and document committee decisions.</p></article>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-10" data-number="10 / 10" aria-labelledby="title-10">
+      <p class="eyebrow">August 14 checkpoint</p>
+      <h2 id="title-10">Success is a defensible study and a responsible launch pathway</h2>
+      <p class="lead">The next checkpoint is not defined by more material. It is defined by clarity, consistency, and readiness.</p>
+      <div class="success-grid">
+        <section class="panel"><span class="label">Completed products</span><ul class="checklist"><li>Approved proposal defense deck</li><li>Likely-question answer bank</li><li>Two or more timed rehearsals</li><li>Chair-reviewed IRB packet</li><li>Aligned instruments and consent materials</li><li>Documented post-defense revisions</li></ul></section>
+        <section class="panel"><span class="label">Feedback I need now</span><div class="questions"><strong>Where is the defense explanation still too complex?</strong><strong>Which design decision needs the strongest justification?</strong><strong>What IRB inconsistency is most likely to delay submission?</strong></div></section>
+      </div>
+      <p class="closing">The proposal has been approved to move forward. The work now is to make that movement disciplined.</p>
+    </section>
+  </main>
+
+  <div class="shortcut" aria-hidden="true">← → navigate • Home / End jump • Space advances</div>
+  <nav class="controls" aria-label="Slide controls">
+    <button id="previous" type="button" aria-label="Previous slide">←</button>
+    <span class="slide-status" id="slide-status">1 / 10</span>
+    <button id="next" type="button" aria-label="Next slide">→</button>
+  </nav>
+
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const previous = document.querySelector('#previous');
+      const next = document.querySelector('#next');
+      const status = document.querySelector('#slide-status');
+      const progress = document.querySelector('#progress-bar');
+      let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.replace('#slide-', '')) - 1 || 0));
+      let touchStartX = null;
+
+      function show(index, updateHash = true) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => {
+          const active = i === current;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+          slide.inert = !active;
+        });
+        status.textContent = `${current + 1} / ${slides.length}`;
+        progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+        previous.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+        if (updateHash) history.replaceState(null, '', `#slide-${current + 1}`);
+        slides[current].scrollTop = 0;
+      }
+
+      previous.addEventListener('click', () => show(current - 1));
+      next.addEventListener('click', () => show(current + 1));
+      document.querySelectorAll('[data-next]').forEach(button => button.addEventListener('click', () => show(current + 1)));
+      document.querySelectorAll('[data-first]').forEach(button => button.addEventListener('click', () => show(0)));
+
+      document.addEventListener('keydown', event => {
+        if (event.target.matches('input, textarea, select')) return;
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') { event.preventDefault(); show(current + 1); }
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); show(current - 1); }
+        if (event.key === 'Home') { event.preventDefault(); show(0); }
+        if (event.key === 'End') { event.preventDefault(); show(slides.length - 1); }
+      });
+
+      document.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+      document.addEventListener('touchend', event => {
+        if (touchStartX === null) return;
+        const distance = event.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(distance) > 60) show(current + (distance < 0 ? 1 : -1));
+        touchStartX = null;
+      }, { passive: true });
+
+      window.addEventListener('hashchange', () => {
+        const requested = Number(location.hash.replace('#slide-', '')) - 1;
+        if (Number.isInteger(requested)) show(requested, false);
+      });
+
+      show(current, false);
+    })();
+  </script>
+</body>
+</html>
