@@ -6,14 +6,19 @@
   <meta name="description" content="Micah Miner's July 2026 dissertation progress check-in: proposal defense approval, August 14 preparation, and IRB submission readiness.">
   <meta name="theme-color" content="#111318">
   <title>CCD-698 | Month Two Dissertation Check-In</title>
+  <link rel="stylesheet" href="https://minerclass.github.io/tokens.css">
   <style>
     :root {
-      --bg: #111318;
-      --surface: #181b22;
-      --surface-2: #20242d;
-      --line: #343945;
-      --ink: #f0eee8;
-      --muted: #a8adb7;
+      /* These already carried the canonical ecosystem values verbatim; they
+         now reference the shared tokens directly, with the same values as
+         fallbacks so a failed load is indistinguishable. */
+      --bg: var(--mjm-bg, #111318);
+      --surface: var(--mjm-surface, #181b22);
+      --surface-2: var(--mjm-surface-2, #20242d);
+      --line: var(--mjm-line, #343945);
+      --ink: var(--mjm-ink, #f0eee8);
+      --muted: var(--mjm-muted, #a8adb7);
+      --mjm-accent: var(--mjm-gold, #f0bd45);
       --gold: #f0bd45;
       --teal: #67b9aa;
       --violet: #aaa1dc;
